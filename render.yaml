@@ -1,0 +1,9 @@
+services:
+  - type: web
+    name: mtcars-api
+    runtime: docker
+    plan: free
+    healthCheckPath: /cars
+    envVars:
+      - key: PORT
+        value: 8000
