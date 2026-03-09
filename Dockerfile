@@ -1,15 +1,16 @@
 FROM rocker/r-ver:4.4.0
 
-# Install system dependencies
 RUN apt-get update && apt-get install -y \
     libcurl4-openssl-dev \
     libssl-dev \
     && rm -rf /var/lib/apt/lists/*
 
-# Install R packages
-RUN R -e "install.packages(c('plumber', 'dplyr', 'jsonlite', 'swagger'), repos = 'https://cloud.r-project.org/')"
+# Install packages separately so failures are clear
+RUN R -e "install.packages('plumber', repos = 'https://cloud.r-project.org/')"
+RUN R -e "install.packages('dplyr', repos = 'https://cloud.r-project.org/')"
+RUN R -e "install.packages('jsonlite', repos = 'https://cloud.r-project.org/')"
+RUN R -e "install.packages('swagger', repos = 'https://cloud.r-project.org/')"
 
-# Copy API file
 COPY cars_api.R /app/cars_api.R
 
 WORKDIR /app
